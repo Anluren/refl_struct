@@ -205,18 +205,18 @@
         __RELF_APPLY(__RELF_NAME_STR_ITEM, __VA_ARGS__)};            \
     static constexpr std::string_view field_types[field_count] = {   \
         __RELF_APPLY(__RELF_TYPE_STR_ITEM, __VA_ARGS__)};            \
-    static constexpr int type_index(std::string_view type_name) {    \
-      for (size_t i = 0; i < field_count; ++i) {                     \
-        if (field_types[i] == type_name) return static_cast<int>(i); \
-      }                                                              \
-      return -1;                                                     \
-    }                                                                \
-    static constexpr int field_index(std::string_view name) {        \
-      for (size_t i = 0; i < field_count; ++i) {                     \
-        if (field_names[i] == name) return static_cast<int>(i);      \
-      }                                                              \
-      return -1;                                                     \
-    }                                                                \
+    static constexpr std::size_t type_index(std::string_view type_name) { \
+      for (std::size_t i = 0; i < field_count; ++i) {                     \
+        if (field_types[i] == type_name) return i;                        \
+      }                                                                   \
+      return field_count; /* out-of-range */                              \
+    }                                                                     \
+    static constexpr std::size_t field_index(std::string_view name) {     \
+      for (std::size_t i = 0; i < field_count; ++i) {                     \
+        if (field_names[i] == name) return i;                             \
+      }                                                                   \
+      return field_count; /* out-of-range */                              \
+    }                                                                     \
   };
 
 // Usage example:

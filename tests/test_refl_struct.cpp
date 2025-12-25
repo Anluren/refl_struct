@@ -9,7 +9,7 @@ __refl_struct(MyStruct, (int, a), (float, b), (const char*, c))
   static_assert(MyStruct::type_index(std::string_view("float")) == 1, "float should be at index 1");
   static_assert(MyStruct::type_index(std::string_view("const char*")) == 2,
                 "const char* should be at index 2");
-  static_assert(MyStruct::type_index(std::string_view("double")) == -1,
+  static_assert(MyStruct::type_index(std::string_view("double")) == MyStruct::field_count,
                 "double should not be found");
   std::cout << "Field count: " << MyStruct::field_count << "\n";
   for (size_t i = 0; i < MyStruct::field_count; ++i) {
