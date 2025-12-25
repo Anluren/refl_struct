@@ -1,0 +1,47 @@
+# Ignore everything
+/*
+# But not these:
+!CMakeLists.txt
+!README.md
+!include/
+!src/
+!tests/
+!.gitignore
+
+# Allow all files in include, src, and tests
+!include/**
+!src/**
+!tests/**
+
+# Ignore all files with executable permissions
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.o
+*.obj
+test_refl_struct
+*
+!*/
+!CMakeLists.txt
+!README.md
+!include/**
+!src/**
+!tests/**
+!*.md
+!*.txt
+!*.cmake
+
+# Exclude all files with executable bit set (requires .gitattributes)
+# This requires a .gitattributes file with:
+# [attr]binary -diff -merge -text
+# [attr]exec -text
+#
+# Then use:
+# *.sh    exec
+# *       binary
+#
+# But .gitignore cannot filter by file mode alone, so for full exclusion of executables by permission, use:
+# git update-index --assume-unchanged <file>
+Thumbs.db
