@@ -10,3 +10,6 @@ target_include_directories(refl_struct INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/inc
 
 add_executable(test_refl_struct tests/test_refl_struct.cpp)
 target_link_libraries(test_refl_struct PRIVATE refl_struct)
+
+add_executable(test_bigstruct tests/test_bigstruct.cpp)
+target_link_libraries(test_bigstruct PRIVATE refl_struct)
