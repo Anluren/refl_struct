@@ -48,19 +48,36 @@
 #include <string_view>
 #include <tuple>
 
+/**
+ * @defgroup ReflectionHelpers Reflection Helper Macros
+ * @brief Helper macros to extract type and name from (type, name) pairs.
+ * @{
+ */
 // Helper macros to extract type and name from (type, name)
 #define __RELF_TYPE(pair) __RELF_TYPE_ pair
 #define __RELF_TYPE_(type, name) type
 #define __RELF_NAME(pair) __RELF_NAME_ pair
 #define __RELF_NAME_(type, name) name
+/** @} */
 
+/**
+ * @defgroup StringizeHelpers Stringize Helper Macros
+ * @brief Macros to convert types and names to string literals.
+ * @{
+ */
 // Stringize helpers
 #define __RELF_STR(s) #s
 #define __RELF_TYPE_STR(pair) __RELF_TYPE_STR_ pair
 #define __RELF_TYPE_STR_(type, name) #type
 #define __RELF_NAME_STR(pair) __RELF_NAME_STR_ pair
 #define __RELF_NAME_STR_(type, name) #name
+/** @} */
 
+/**
+ * @defgroup ArgumentCounting Argument Counting Macros
+ * @brief Macros to count the number of arguments (up to 30).
+ * @{
+ */
 // Macro to count arguments (up to 30)
 #define __RELF_NARG_(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10, _11, _12, _13, _14, _15, _16, _17, \
                      _18, _19, _20, _21, _22, _23, _24, _25, _26, _27, _28, _29, _30, N, ...)    \
@@ -68,6 +85,16 @@
 #define __RELF_NARG(...)                                                                        \
   __RELF_NARG_(__VA_ARGS__, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, \
                13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0)
+/** @} */
+/**
+ * @defgroup MacroApply Macro Application Macros
+ * @brief Macros to apply another macro to each argument.
+ *
+ * - __RELF_APPLY: Apply macro to each argument.
+ * - __RELF_APPLY1: Apply macro to each argument with an extra parameter.
+ * - __RELF_APPLY_INDEX: Apply macro to each argument with its index.
+ * @{
+ */
 
 // Macro to apply another macro to each argument
 #define __RELF_APPLY(macro, ...) __RELF_APPLY_N(macro, __RELF_NARG(__VA_ARGS__), __VA_ARGS__)
