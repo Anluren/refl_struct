@@ -1,3 +1,5 @@
+add_executable(test_macro_pair tests/test_macro_pair.cpp)
+target_link_libraries(test_macro_pair PRIVATE refl_struct)
 cmake_minimum_required(VERSION 3.10)
 project(refl_struct_example LANGUAGES CXX)
 

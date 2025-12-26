@@ -2,9 +2,9 @@
 
 #include "refl_struct.hpp"
 
-__refl_struct(MyStruct, (int, a), (float, b), (const char*, c))
+__refl_struct(MyStruct, (int, a), (float, b), (const char*, c));
 
-    int main() {
+int main() {
   static_assert(MyStruct::type_index(std::string_view("int")) == 0, "int should be at index 0");
   static_assert(MyStruct::type_index(std::string_view("float")) == 1, "float should be at index 1");
   static_assert(MyStruct::type_index(std::string_view("const char*")) == 2,

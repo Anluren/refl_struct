@@ -1,28 +1,34 @@
+// Replicate CH_FOR_EACH_1, CH_FOR_EACH_2, ... macro pattern from cash
+#define CH_FOR_EACH_1(M, x) M(x)
+#define CH_FOR_EACH_2(M, x, ...) M(x) CH_FOR_EACH_1(M, __VA_ARGS__)
+#define CH_FOR_EACH_3(M, x, ...) M(x) CH_FOR_EACH_2(M, __VA_ARGS__)
+#define CH_FOR_EACH_4(M, x, ...) M(x) CH_FOR_EACH_3(M, __VA_ARGS__)
+#define CH_FOR_EACH_5(M, x, ...) M(x) CH_FOR_EACH_4(M, __VA_ARGS__)
+#define CH_FOR_EACH_6(M, x, ...) M(x) CH_FOR_EACH_5(M, __VA_ARGS__)
+#define CH_FOR_EACH_7(M, x, ...) M(x) CH_FOR_EACH_6(M, __VA_ARGS__)
+#define CH_FOR_EACH_8(M, x, ...) M(x) CH_FOR_EACH_7(M, __VA_ARGS__)
+#define CH_FOR_EACH_9(M, x, ...) M(x) CH_FOR_EACH_8(M, __VA_ARGS__)
+#define CH_FOR_EACH_10(M, x, ...) M(x) CH_FOR_EACH_9(M, __VA_ARGS__)
+// Extend as needed for more arguments
 // Macro to apply another macro to each argument, passing the index and the argument (cleaner version)
-#define __RELF_APPLY_INDEX_HELPER(m, i, a) m(i, a)
-#define __RELF_APPLY_INDEX_1(m, a1) __RELF_APPLY_INDEX_HELPER(m, 0, a1)
-#define __RELF_APPLY_INDEX_2(m, a1, a2) \
-  __RELF_APPLY_INDEX_1(m, a1) __RELF_APPLY_INDEX_HELPER(m, 1, a2)
-#define __RELF_APPLY_INDEX_3(m, a1, a2, a3) \
-  __RELF_APPLY_INDEX_2(m, a1, a2) __RELF_APPLY_INDEX_HELPER(m, 2, a3)
-#define __RELF_APPLY_INDEX_4(m, a1, a2, a3, a4) \
-  __RELF_APPLY_INDEX_3(m, a1, a2, a3) __RELF_APPLY_INDEX_HELPER(m, 3, a4)
-#define __RELF_APPLY_INDEX_5(m, a1, a2, a3, a4, a5) \
-  __RELF_APPLY_INDEX_4(m, a1, a2, a3, a4) __RELF_APPLY_INDEX_HELPER(m, 4, a5)
-#define __RELF_APPLY_INDEX_6(m, a1, a2, a3, a4, a5, a6) \
-  __RELF_APPLY_INDEX_5(m, a1, a2, a3, a4, a5) __RELF_APPLY_INDEX_HELPER(m, 5, a6)
-#define __RELF_APPLY_INDEX_7(m, a1, a2, a3, a4, a5, a6, a7) \
-  __RELF_APPLY_INDEX_6(m, a1, a2, a3, a4, a5, a6) __RELF_APPLY_INDEX_HELPER(m, 6, a7)
-#define __RELF_APPLY_INDEX_8(m, a1, a2, a3, a4, a5, a6, a7, a8) \
-  __RELF_APPLY_INDEX_7(m, a1, a2, a3, a4, a5, a6, a7) __RELF_APPLY_INDEX_HELPER(m, 7, a8)
-#define __RELF_APPLY_INDEX_9(m, a1, a2, a3, a4, a5, a6, a7, a8, a9) \
-  __RELF_APPLY_INDEX_8(m, a1, a2, a3, a4, a5, a6, a7, a8) __RELF_APPLY_INDEX_HELPER(m, 8, a9)
-#define __RELF_APPLY_INDEX_10(m, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10) \
-  __RELF_APPLY_INDEX_9(m, a1, a2, a3, a4, a5, a6, a7, a8, a9) __RELF_APPLY_INDEX_HELPER(m, 9, a10)
+// Recursive pattern for __RELF_APPLY_INDEX_N macros, similar to CH_FOR_EACH_N
+#define __RELF_APPLY_INDEX_1(M, x) M(0, x)
+#define __RELF_APPLY_INDEX_2(M, x, ...) M(0, x) __RELF_APPLY_INDEX_1(__RELF_APPLY_INDEX_SHIFT(M), __VA_ARGS__)
+#define __RELF_APPLY_INDEX_3(M, x, ...) M(0, x) __RELF_APPLY_INDEX_2(__RELF_APPLY_INDEX_SHIFT(M), __VA_ARGS__)
+#define __RELF_APPLY_INDEX_4(M, x, ...) M(0, x) __RELF_APPLY_INDEX_3(__RELF_APPLY_INDEX_SHIFT(M), __VA_ARGS__)
+#define __RELF_APPLY_INDEX_5(M, x, ...) M(0, x) __RELF_APPLY_INDEX_4(__RELF_APPLY_INDEX_SHIFT(M), __VA_ARGS__)
+#define __RELF_APPLY_INDEX_6(M, x, ...) M(0, x) __RELF_APPLY_INDEX_5(__RELF_APPLY_INDEX_SHIFT(M), __VA_ARGS__)
+#define __RELF_APPLY_INDEX_7(M, x, ...) M(0, x) __RELF_APPLY_INDEX_6(__RELF_APPLY_INDEX_SHIFT(M), __VA_ARGS__)
+#define __RELF_APPLY_INDEX_8(M, x, ...) M(0, x) __RELF_APPLY_INDEX_7(__RELF_APPLY_INDEX_SHIFT(M), __VA_ARGS__)
+#define __RELF_APPLY_INDEX_9(M, x, ...) M(0, x) __RELF_APPLY_INDEX_8(__RELF_APPLY_INDEX_SHIFT(M), __VA_ARGS__)
+#define __RELF_APPLY_INDEX_10(M, x, ...) M(0, x) __RELF_APPLY_INDEX_9(__RELF_APPLY_INDEX_SHIFT(M), __VA_ARGS__)
+// Helper macro to shift the index by 1 for each recursion
+#define __RELF_APPLY_INDEX_SHIFT(M) __RELF_APPLY_INDEX_SHIFT_IMPL M
+#define __RELF_APPLY_INDEX_SHIFT_IMPL(i, x) M(i+1, x)
 // ... extend as needed up to 30
 #define __RELF_APPLY_INDEX(macro, ...) __RELF_APPLY_INDEX_N(macro, __RELF_NARG(__VA_ARGS__), __VA_ARGS__)
 #define __RELF_APPLY_INDEX_N(macro, N, ...) __RELF_APPLY_INDEX_N_(macro, N, __VA_ARGS__)
-#define __RELF_APPLY_INDEX_N_(macro, N, ...) __RELF_APPLY_INDEX_##N(macro, __VA_ARGS__)
+#define __RELF_APPLY_INDEX_N_(macro, N, ...) __RELF_APPLY_##N(macro, __VA_ARGS__)
 // Macro to apply another macro to each argument, passing an extra parameter
 #define __RELF_APPLY1(macro, extra, ...) __RELF_APPLY1_N(macro, extra, __RELF_NARG(__VA_ARGS__), __VA_ARGS__)
 #define __RELF_APPLY1_N(macro, extra, N, ...) __RELF_APPLY1_N_(macro, extra, N, __VA_ARGS__)
@@ -219,6 +225,13 @@
     }                                                                     \
   };
 
+// --- Concrete Example: Forwarding Parenthesis-Enclosed Pair ---
+// Define a macro that takes two parameters
+#define PRINT_TYPE_AND_NAME(type, name) type name;
+
+// Macro to forward a (type, name) pair to another macro as two parameters
+#define FORWARD_PAIR(macro, pair) macro pair
+
 // Usage example:
-// __refl_struct(MyStruct, (int, a), (float, b), (std::string, c))
-// MyStruct::field_count, MyStruct::field_names, MyStruct::field_types
+// This expands to: int a;
+// ------------------------------------------------------------
